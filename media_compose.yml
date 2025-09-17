@@ -1,14 +1,17 @@
-
+# compose file for media center
+# 
+# podman compose --file .\media_compose.yml up --detach
+#
 services:
 
   plex:
     image: plexinc/pms-docker:latest
     container_name: plex
     env_file:
-      - .env
+      - compose.env
     environment:
       - VERSION=docker
-      - HOSTNAME=”PlexServer”
+      - HOSTNAME="PlexServer"
     volumes:
       - ./provision/plex:/config
       - ./content/media:/data/media
@@ -31,7 +34,7 @@ services:
     image: linuxserver/radarr:latest
     container_name: radarr
     env_file:
-      - .env
+      - compose.env
     volumes:
       - ./provision/radarr:/config
       - ./content:/data
@@ -45,7 +48,7 @@ services:
     image: linuxserver/sonarr:latest
     container_name: sonarr
     env_file:
-      - .env
+      - compose.env
     volumes:
       - ./provision/sonarr:/config
       - ./content:/data
@@ -59,7 +62,7 @@ services:
     image: linuxserver/lidarr:latest
     container_name: lidarr
     env_file:
-      - .env
+      - compose.env
     volumes:
       - ./provision/lidarr:/config
       - ./content:/data
@@ -73,7 +76,7 @@ services:
     image: linuxserver/prowlarr:latest
     container_name: prowlarr
     env_file:
-      - .env
+      - compose.env
     volumes:
       - ./provision/prowlarr:/config
     ports:
@@ -86,7 +89,7 @@ services:
     image: linuxserver/bazarr:latest
     container_name: bazarr
     env_file:
-      - .env
+      - compose.env
     volumes:
       - ./provision/bazarr:/config
       - ./content:/data
@@ -100,7 +103,7 @@ services:
     image: linuxserver/qbittorrent:latest
     container_name: qbittorrent
     env_file:
-      - .env
+      - compose.env
     volumes:
       - ./provision/qbittorrent:/config
       - ./content/torrents:/data/torrents
@@ -114,7 +117,7 @@ services:
     image: linuxserver/jackett:latest
     container_name: jackett
     env_file:
-      - .env
+      - compose.env
     volumes:
       - ./provision/jackett:/config
     ports:
@@ -127,7 +130,7 @@ services:
     image: linuxserver/ombi:latest
     container_name: ombi
     env_file:
-      - .env
+      - compose.env
     volumes:
       - ./provision/ombi:/config
     ports:
@@ -140,7 +143,7 @@ services:
     image: linuxserver/heimdall:latest
     container_name: heimdall
     env_file:
-      - .env
+      - compose.env
     volumes:
       - ./provision/heimdall:/config
     ports:
@@ -155,7 +158,7 @@ services:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
     env_file:
-      - .env
+      - compose.env
     volumes:
       - ./provision/overseerr:/config
     ports:
@@ -168,7 +171,7 @@ services:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
     env_file:
-      - .env
+      - compose.env
     volumes:
       - ./provision/flaresolverr:/config
     ports:
