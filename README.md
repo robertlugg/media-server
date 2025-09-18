@@ -1,6 +1,6 @@
 # Automated Home Media Server
 
-This is a fully automated home media server setup using Docker Compose. It pulls content, organizes it, adds subtitles, and makes everything available through Plex with minimal manual input. The whole system can be controlled via a user-friendly web dashboard.
+This is a fully automated home media server setup using (Docker) Compose. It pulls content, organizes it, adds subtitles, and makes everything available through Plex with minimal manual input. The whole system can be controlled via a user-friendly web dashboard.
 
 <!-- *Created 2023-01-16* Date started to develop and research-->
 <!-- *Modified 2025-08-07* -->
@@ -78,7 +78,7 @@ The project use the following folder structure: ``content`` and ``provision`` in
 └───provision
 ```
 
-Run `docker-compose up -d`.
+Run `Start-MediaCenter.ps1` to start up stack.
 
 How to add env variables (in case want to set watchover telegram notifications)
 
@@ -95,7 +95,7 @@ Before continuing, be aware of your local laws regarding torrent usage and copyr
 
 ### Plex
 
-- Access the Plex Web UI `http://<host>:32400/web`
+- Access the Plex Web UI `http://localhost:32400/web`
 - You will be prompted to sign in or create a new account.
 - After signing in, you'll be prompted to add your media folders.
 - Once you've added your media, Plex will begin analyzing your media files, and then it will be ready to use.
@@ -106,25 +106,43 @@ Before continuing, be aware of your local laws regarding torrent usage and copyr
 
 - Web UI available at ``http://<host>:80``
 - Click on ``Add an application here`` and search for the application, for example ``Plex``
-- Add the rest of the services from ``Application list`` then ``Add``, here is a table for all the applications
+- Add the rest of the services.  Use the output from  `./Start-MediaCenter.ps1` to find the web
+  port.
 
+Example Output:
+  NAMES         STATUS                 PORTS
+watchtower    Up 21 hours (healthy)  8080/tcp
+prowlarr      Up 21 hours            0.0.0.0:9696->9696/tcp
+heimdall      Up 21 hours            0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp
+bazarr        Up 21 hours            0.0.0.0:6767->6767/tcp
+ombi          Up 21 hours            0.0.0.0:3579->3579/tcp
+radarr        Up 21 hours            0.0.0.0:7878->7878/tcp
+sonarr        Up 21 hours            0.0.0.0:8989->8989/tcp
+lidarr        Up 21 hours            0.0.0.0:8686->8686/tcp
+qbittorrent   Up 21 hours            0.0.0.0:8080->8080/tcp, 6881/tcp, 6881/udp
+plex          Up 21 hours (healthy)  8324/tcp, 32400/tcp, 32469/tcp, 1900/udp, 32410/udp, 32412-32414/udp
+flaresolverr  Up 21 hours            0.0.0.0:8199->8199/tcp, 8191-8192/tcp
+overseerr     Up About a minute      0.0.0.0:5055->5055/tcp
+jackett       Up About a minute      0.0.0.0:9117->9117/tcp
+
+Use the output similar to below to set up Hiemdall.  
 | Title        | URL                        |
 |--------------|----------------------------|
-| Plex         | `http://<host>:32400/web`  |
-| qBittorrent  | `http://<host>:8080`       |
-| Radarr       | `http://<host>:7878`       |
-| Sonarr       | `http://<host>:8989`       |
-| Lidarr       | `http://<host>:8686`       |
-| Prowlarr     | `http://<host>:9696`       |
-| Jackett      | `http://<host>:9117`       |
-| Bazarr       | `http://<host>:6767`       |
-| Ombi         | `http://<host>:3579`       |
+| Plex         | `http://localhost:32400/web`  |
+| qBittorrent  | `http://localhost:8080`       |
+| Radarr       | `http://localhost:7878`       |
+| Sonarr       | `http://localhost:8989`       |
+| Lidarr       | `http://localhost:8686`       |
+| Prowlarr     | `http://localhost:9696`       |
+| Jackett      | `http://localhost:9117`       |
+| Bazarr       | `http://localhost:6767`       |
+| Ombi         | `http://localhost:3579`       |
 
 - Last, you may want to change home page background from settings menu
 
 ### qBittorrent
 
-Access the Qbittorrent web interface at ``http://<host>:8080`` to set up and configure your download client.
+Access the Qbittorrent web interface at ``http://localhost:8080`` to set up and configure your download client.
 
 1. Change default credentials
    The default credentials for the qBittorrent service provided in the LinuxServer's image are as follows:
@@ -362,3 +380,4 @@ Additional resources:
 - [Webreaper Compose Example](https://gist.github.com/Webreaper/81ecda3ecc45fa61a16dfc90cfc4550d)
 
 This README focuses on practical setup steps with minimal fluff. If you need help or want to explore more customizations, check the full guide: [wiki.ayanev.eu](https://wiki.ayanev.eu/#/do-it-yourself/2023-01-home-media-server/)
+
